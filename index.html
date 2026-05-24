@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Toñi APP">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Toñi APP</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="splash">
+    <img src="./icons/icon-192.png" alt="Toñi APP">
+    <h1>Toñi APP</h1>
+    <p>Asistente Profesional Personal</p>
+    <button id="openExternal">Abrir en navegador</button>
+  </div>
+
+  <iframe
+    id="toniFrame"
+    title="Toñi APP"
+    src="https://script.google.com/macros/s/AKfycbyxA2GSUAsq1TJrMFDufPp-z0fUowwicErwsFT11mDSmZ2KZr2BhfYIX84XaD_qpX6w/exec"
+    allow="microphone; clipboard-read; clipboard-write"
+  ></iframe>
+
+  <script src="./app.js"></script>
+</body>
+</html>
