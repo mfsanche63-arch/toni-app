@@ -1,7 +1,7 @@
 {
   "name": "Toñi APP - Asistente Profesional Personal",
   "short_name": "Toñi APP",
-  "description": "Asistente Profesional Personal para tareas, comunicaciones, recordatorios y repaso diario.",
+  "description": "Asistente móvil para tareas, comunicaciones, recordatorios y repaso diario.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

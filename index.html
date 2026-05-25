@@ -8,30 +8,122 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Toñi APP">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <title>Toñi APP</title>
-
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
-
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <div id="splash">
-    <img src="./icons/icon-192.png" alt="Toñi APP">
-    <h1>Toñi APP</h1>
-    <p>Asistente Profesional Personal</p>
-    <button id="openExternal">Abrir en navegador</button>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="./icons/icon-192.png" alt="Toñi APP">
+        <div><h1>Toñi APP</h1><p>Asistente Profesional Personal</p></div>
+      </div>
+      <button class="icon-btn" id="settingsBtn">⚙️</button>
+    </header>
+
+    <section class="setup card" id="setupPanel">
+      <h2>Configuración inicial</h2>
+      <p class="muted">Introduce la URL del Worker y el PIN. Se guardan solo en este dispositivo.</p>
+      <label for="workerUrl">URL del Worker</label>
+      <input id="workerUrl" placeholder="https://toni-app-api.tuusuario.workers.dev">
+      <label for="appPin">PIN</label>
+      <input id="appPin" type="password" inputmode="numeric" placeholder="PIN">
+      <button class="primary full" id="saveConfigBtn">Guardar configuración</button>
+      <button class="secondary full" id="testWorkerBtn">Probar conexión</button>
+    </section>
+
+    <main id="appPanel" class="app-panel hidden">
+      <section class="hero card">
+        <p class="eyebrow">Centro de mando</p>
+        <h2>¿Qué necesitas registrar?</h2>
+        <p id="connectionLabel" class="muted">Worker pendiente de comprobar.</p>
+        <div class="quick-grid">
+          <button class="quick active" data-view="voiceView">🎙️ Voz</button>
+          <button class="quick" data-view="taskView">✅ Tarea</button>
+          <button class="quick" data-view="commView">💬 Comunicación</button>
+          <button class="quick" data-view="reminderView">⏰ Recordatorio</button>
+          <button class="quick" data-view="dailyView">📋 Repaso</button>
+          <button class="quick" data-view="searchView">🔎 Buscar</button>
+        </div>
+      </section>
+
+      <section class="view card" id="voiceView">
+        <h2>Captura por voz</h2>
+        <p class="muted">Dicta, revisa el texto y elige cómo guardarlo.</p>
+        <textarea id="voiceText" placeholder="Ejemplo: En Mafer, llamar mañana a Laura por el presupuesto pendiente..."></textarea>
+        <div class="row">
+          <button class="primary" id="voiceBtn">🎙️ Hablar</button>
+          <button class="secondary" id="stopVoiceBtn">⏹️ Parar</button>
+          <button class="secondary" id="clearVoiceBtn">Limpiar</button>
+        </div>
+        <div class="notice" id="voiceNotice">Si el botón de voz no funciona en tu Android, toca el campo y usa el micrófono del teclado. La app seguirá funcionando igual.</div>
+        <h3>Guardar como</h3>
+        <div class="quick-grid two">
+          <button class="secondary" id="voiceToTaskBtn">✅ Tarea</button>
+          <button class="secondary" id="voiceToReminderBtn">⏰ Recordatorio</button>
+        </div>
+      </section>
+
+      <section class="view card hidden" id="taskView">
+        <h2>Nueva tarea</h2>
+        <div class="grid"><div><label>Bloque</label><select id="taskBlock"></select></div><div><label>Prioridad</label><select id="taskPriority"><option>Media</option><option>Alta</option><option>Baja</option></select></div></div>
+        <label>Proyecto / cliente</label><input id="taskClient" placeholder="Laura, Marta, cliente, proyecto...">
+        <label>Título</label><input id="taskTitle" placeholder="Llamar a Laura por presupuesto">
+        <label>Descripción</label><textarea id="taskDescription"></textarea>
+        <div class="grid"><div><label>Fecha límite</label><input id="taskDate" type="date"></div><div><label>Estado</label><select id="taskStatus"><option>Pendiente</option><option>Programada</option><option>En curso</option><option>Esperando tercero</option><option>Bloqueada</option></select></div></div>
+        <label>Próximo paso</label><input id="taskNext" placeholder="Llamar, enviar, revisar...">
+        <button class="primary full" id="createTaskBtn">Guardar tarea</button>
+      </section>
+
+      <section class="view card hidden" id="commView">
+        <h2>Registrar comunicación</h2>
+        <div class="grid"><div><label>Bloque</label><select id="commBlock"></select></div><div><label>Canal</label><select id="commChannel"><option>WhatsApp</option><option>Teléfono</option><option>Email</option><option>Presencial</option><option>Reunión</option><option>Videollamada</option><option>Otro</option></select></div></div>
+        <label>Cliente / contacto</label><input id="commContact" placeholder="Laura">
+        <label>Resumen</label><textarea id="commSummary" placeholder="Qué se ha hablado..."></textarea>
+        <label>Compromiso mío</label><input id="commMine" placeholder="Hacer seguimiento...">
+        <label>Compromiso del contacto</label><input id="commTheirs" placeholder="Revisar presupuesto...">
+        <div class="grid"><div><label>Fecha seguimiento</label><input id="commDate" type="date"></div><div><label>Prioridad seguimiento</label><select id="commPriority"><option>Media</option><option>Alta</option><option>Baja</option></select></div></div>
+        <label>Próximo paso</label><input id="commNext" placeholder="Escribir por WhatsApp...">
+        <button class="primary full" id="createCommBtn">Guardar comunicación + seguimiento</button>
+      </section>
+
+      <section class="view card hidden" id="reminderView">
+        <h2>Recordatorio con aviso real</h2>
+        <p class="muted">Crea evento en Google Calendar con doble aviso: 60 y 10 minutos antes.</p>
+        <label>Bloque</label><select id="reminderBlock"></select>
+        <label>Título</label><input id="reminderTitle" placeholder="Llamar a Laura">
+        <label>Relacionado con</label><input id="reminderRelated" placeholder="Laura, presupuesto, cita...">
+        <div class="grid"><div><label>Fecha</label><input id="reminderDate" type="date"></div><div><label>Hora</label><input id="reminderTime" type="time" value="09:00"></div></div>
+        <label>Descripción</label><textarea id="reminderDescription"></textarea>
+        <button class="primary full" id="createReminderBtn">Crear recordatorio</button>
+      </section>
+
+      <section class="view card hidden" id="dailyView">
+        <h2>Repaso diario</h2>
+        <p class="muted">Consulta Google Sheets y muestra el resumen en formato legible.</p>
+        <div class="row">
+          <button class="primary" id="dailyBtn">Hacer repaso</button>
+          <button class="secondary" id="speakDailyBtn">🔊 Leer</button>
+          <button class="secondary" id="stopSpeakBtn">🔇 Parar</button>
+        </div>
+        <div id="dailyFormatted" class="daily-output empty">Todavía no hay repaso cargado.</div>
+      </section>
+
+      <section class="view card hidden" id="searchView">
+        <h2>Buscar tareas</h2>
+        <div class="grid"><div><label>Bloque</label><select id="searchBlock"></select></div><div><label>Estado</label><select id="searchStatus"><option value="">Todos</option><option>Pendiente</option><option>Programada</option><option>En curso</option><option>Esperando tercero</option><option>Bloqueada</option><option>Hecha</option><option>Cancelada</option></select></div></div>
+        <label>Texto</label><input id="searchText" placeholder="Laura, presupuesto, pedido...">
+        <button class="primary full" id="searchBtn">Buscar</button>
+        <div id="searchFormatted" class="daily-output empty">Sin búsqueda todavía.</div>
+      </section>
+    </main>
+
+    <section class="toast" id="toast"></section>
+    <section class="modal hidden" id="debugModal"><div class="modal-card"><div class="modal-head"><h2>Resultado técnico</h2><button class="icon-btn" id="closeDebugBtn">✕</button></div><pre id="debugText"></pre></div></section>
   </div>
-
-  <iframe
-    id="toniFrame"
-    title="Toñi APP"
-    src="https://script.google.com/macros/s/AKfycbyxA2GSUAsq1TJrMFDufPp-z0fUowwicErwsFT11mDSmZ2KZr2BhfYIX84XaD_qpX6w/exec"
-    allow="microphone; clipboard-read; clipboard-write"
-  ></iframe>
-
   <script src="./app.js"></script>
 </body>
 </html>
